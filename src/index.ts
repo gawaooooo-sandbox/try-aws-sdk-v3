@@ -1,12 +1,17 @@
-import { S3Client, ListBucketsCommand } from "@aws-sdk/client-s3";
+import { S3Client, ListBucketsCommand } from '@aws-sdk/client-s3';
 
-const client = new S3Client({});
+const client = new S3Client({ region: 'ap-northeast-1' });
+console.log(client);
 
 async function configuration() {
-    console.group('configuration');
-    console.log(await client.config.credentials());
-    console.log(client.config.endpoint);
-    console.groupEnd();
+    try {
+        console.group('configuration');
+        console.log(await client.config.credentials());
+        console.log(client.config.endpoint);
+        console.groupEnd();
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 async function listBuckets() {
@@ -19,7 +24,7 @@ async function listBuckets() {
 
         console.group('list buckets');
         console.table(response.Buckets || []);
-        console.log(response.Owner);            
+        console.log(response.Owner);
         console.groupEnd();
     } catch (error) {
         console.error(error);
